@@ -31,7 +31,7 @@ class Solution:
     双指针
     """
     
-def twoSum(self, nums: List[int], target: int) -> List[int]:
+def twoSum(self, nums, target):
         # 先对数组排序
         nums.sort()
         res = []
