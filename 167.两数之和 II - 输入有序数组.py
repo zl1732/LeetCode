@@ -8,6 +8,16 @@
 # @lc code=start
 class Solution:
     def twoSum(self, numbers: List[int], target: int) -> List[int]:
+        lo, hi = 0, len(numbers)-1
+        while lo<hi:
+            curSum = numbers[lo] + numbers[hi]
+            if lo < hi and curSum < target:
+                lo += 1
+            elif lo < hi and curSum > target:
+                hi -= 1
+            else:
+                return [lo+1, hi+1]
+
         
 # @lc code=end
 
