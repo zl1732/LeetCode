@@ -30,6 +30,8 @@ class Solution:
                 count = 1  # 新数重新计数
         return slow + 1
 
+
+
 """
 微妙差别：
 方法一就像「慢指针 slow 是一个筛子口，我每次要问：fast 这个球能不能进？」
@@ -59,34 +61,22 @@ class Solution:
             return 0
         slow = 0
         count = 0  # 当前数字计数，从0开始
-        # for fast in range(len(nums)):
-        #     if fast == 0 or nums[fast] != nums[fast - 1]:
-        #         nums[slow] = nums[fast]
-        #         slow += 1
-        #         count = 1  # 新数第一次放进去
-        #     elif count < 2:
-        #         nums[slow] = nums[fast]
-        #         slow += 1
-        #         count += 1
-        #     # 如果 count >= 2，直接跳过
-        # return slow
     
         for fast in range(len(nums)):
-            # 情况 1: 第一个元素，必须保留
             if fast == 0:
                 nums[slow] = nums[fast]
                 slow += 1
                 count = 1
                 continue
 
-            # 情况 2: 新元素（和前一个不同）
+            # fast-1：比较的是 原数组里相邻两个元素。
+            # slow-1：比较的是 结果数组最后一个元素。
             if nums[fast] != nums[fast - 1]:
                 nums[slow] = nums[fast]
                 slow += 1
                 count = 1
                 continue
 
-            # 情况 3: 重复元素，但出现次数还没超过 2
             if count < 2:
                 nums[slow] = nums[fast]
                 slow += 1
@@ -98,10 +88,7 @@ class Solution:
         return slow
     
 
-
-
-
-class Solution1:
+class Solution:
     """
     方法3： 不跳过第一个元素
 
@@ -114,7 +101,8 @@ class Solution1:
         接着 fast += 1，count += 1，下一次循环才真正开始处理。
         也就是说：第一个元素天然保留，不用写任何逻辑。
     """
-    def remove(nums):
+    # ✅
+    def removeDuplicates(self, nums):
         if len(nums) == 0:
             return 0
         slow = fast = 0
@@ -123,7 +111,7 @@ class Solution1:
             if nums[fast]!=nums[slow]:
                 slow += 1
                 nums[slow] = nums[fast]
-                count += 1
+                count += 1 # 先“临时的加一”；在循环结尾，再根据 new != old 来判断是否遇到新数，然后重置 count = 0。
             else: # 相等
                 if slow < fast and count < 2:
                     slow += 1
@@ -135,6 +123,29 @@ class Solution1:
             if fast < len(nums) and new != old:
                 count = 0
         return slow + 1           
+
+    #❌❌❌❌❌❌❌
+    def removeDuplicates(self, nums):
+        if len(nums) ==0:
+            return 0
+        slow = fast = 0
+        count =0
+        while fast < len(nums):
+            if nums[fast] != nums[slow]:
+                slow += 1
+                nums[slow] = nums[fast]
+                count = 1 # 👉 初始 fast=0, slow=0, count=0 时，第一个元素还没被正确计数，到第二个相等元素时，count 其实落后一拍，导致第 3 个相同元素还能再被放进去
+            else:
+                if slow < fast and count<2:
+                    slow += 1
+                    nums[slow] = nums[fast]
+                    count+= 1
+            fast += 1
+        return slow + 1
+
+
+
+
 
 
 
