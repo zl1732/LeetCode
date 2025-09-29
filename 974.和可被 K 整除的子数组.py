@@ -25,10 +25,10 @@ class Solution:
         count = defaultdict(int)
         count[0] = 1
         out = 0
-        for i, num in enumerate(nums):
+        for num in nums:
             preSum += num
-            
             rem = (preSum%k)
+            
             if rem in count:
                 out += count[rem]
                 count[rem] += 1
