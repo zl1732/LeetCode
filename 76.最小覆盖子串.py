@@ -197,18 +197,18 @@ class Solution:
                 left += 1
                 
                 if d in need:
-                    # # 写法1：
-                    # # 注意这里是先检测，再删除d， 所以是==
-                    # if window[d] == need[d]:
-                    #     valid -= 1
-                    # window[d] -= 1
-                    
-                    # 写法2：
-                    # 注意这里是先删除d，再检测 所以是<
-                    # 不用再window.get(c, 0) - 1 
-                    window[d] -= 1
-                    if window[d] < need[d]:
+                    # 写法1：
+                    # 注意这里是先检测，再删除d， 所以是==
+                    if window[d] == need[d]:
                         valid -= 1
+                    window[d] -= 1
+                    
+                    # # 写法2：
+                    # # 注意这里是先删除d，再检测 所以是<
+                    # # 不用再window.get(c, 0) - 1 
+                    # window[d] -= 1
+                    # if window[d] < need[d]:
+                    #     valid -= 1
                     
         return s[start:start + min_len] if min_len != float('inf') else ""
 
@@ -246,7 +246,7 @@ class Solution:
                 
                 if d in need:
                     window[d] -= 1
-                    if window[d] < need[d]:
+                    if window[d] < need[d]:  # vs 395
                         valid -= 1
                     
         return s[start:start + min_len] if min_len != float('inf') else ""
