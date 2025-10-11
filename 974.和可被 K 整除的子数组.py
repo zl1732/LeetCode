@@ -7,6 +7,9 @@
 
 # @lc code=start
 class Solution:
+<<<<<<< HEAD
+    def subarraysDivByK(self, nums: List[int], k: int) -> int:
+=======
     """
     print(-1%4)   3
     print(-2%4)   2
@@ -40,6 +43,7 @@ class Solution:
 
 
         
+>>>>>>> b0d0ed76e32d11849717c8194682fdfeeb87ce5a
         
 # @lc code=end
 

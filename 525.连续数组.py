@@ -7,6 +7,9 @@
 
 # @lc code=start
 class Solution:
+<<<<<<< HEAD
+    def findMaxLength(self, nums: List[int]) -> int:
+=======
     """
     2. 525 题
 
@@ -37,6 +40,7 @@ class Solution:
         return max_len
 
 
+>>>>>>> b0d0ed76e32d11849717c8194682fdfeeb87ce5a
         
 # @lc code=end
 

@@ -7,6 +7,9 @@
 
 # @lc code=start
 class Solution:
+<<<<<<< HEAD
+    def checkSubarraySum(self, nums: List[int], k: int) -> bool:
+=======
     """
     1. 构建preSum
     2. for i for j, presum[i]-presum[j] 这必定是on2
@@ -49,6 +52,7 @@ class Solution:
         return False
         
 
+>>>>>>> b0d0ed76e32d11849717c8194682fdfeeb87ce5a
         
 # @lc code=end
 

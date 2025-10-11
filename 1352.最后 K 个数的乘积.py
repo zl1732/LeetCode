@@ -8,6 +8,25 @@
 # @lc code=start
 class ProductOfNumbers:
     """
+<<<<<<< HEAD
+    如果遇到 num == 0：
+
+        把前缀数组清空，重新开始。
+        因为 0 会把之前所有的乘积都清零。
+
+    如果 k 大于上次清空后的长度，说明结果里必定有 0 → 返回 0
+
+        否则正常用前缀积做除法。
+    """
+    def __init__(self):
+        self.nums = []
+        
+
+    def add(self, num: int) -> None:
+        self.nums.append(num)
+
+    def getProduct(self, k: int) -> int:
+=======
     1. 遇到0就重置preSum
     2. presum[-1] / presum[-1-k]
     3. k>len(preSum) return 0
@@ -27,6 +46,7 @@ class ProductOfNumbers:
         if k >= len(self.preSum):
             return 0
         return self.preSum[-1] // self.preSum[-1-k]
+>>>>>>> b0d0ed76e32d11849717c8194682fdfeeb87ce5a
         
 
 
