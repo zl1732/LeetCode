@@ -8,6 +8,7 @@
 # @lc code=start
 class ProductOfNumbers:
     """
+<<<<<<< HEAD
     如果遇到 num == 0：
 
         把前缀数组清空，重新开始。
@@ -25,6 +26,27 @@ class ProductOfNumbers:
         self.nums.append(num)
 
     def getProduct(self, k: int) -> int:
+=======
+    1. 遇到0就重置preSum
+    2. presum[-1] / presum[-1-k]
+    3. k>len(preSum) return 0
+    """
+    def __init__(self):
+        self.preSum = [1]
+
+    def add(self, num: int) -> None:
+        if num == 0:
+            self.preSum = [1]
+        else:
+            self.preSum.append(self.preSum[-1] * num)
+        
+
+    def getProduct(self, k: int) -> int:
+        # 如果最后一位是0， presum = [1]
+        if k >= len(self.preSum):
+            return 0
+        return self.preSum[-1] // self.preSum[-1-k]
+>>>>>>> b0d0ed76e32d11849717c8194682fdfeeb87ce5a
         
 
 

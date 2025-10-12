@@ -45,8 +45,11 @@ class Solution:
             for j in range(1,n):
                 self.preSum[i][j] = (self.preSum[i-1][j] + self.preSum[i][j-1] -
                                      self.preSum[i-1][j-1] + mat[i-1][j-1])
+<<<<<<< HEAD
     
 
+=======
+>>>>>>> b0d0ed76e32d11849717c8194682fdfeeb87ce5a
 # @lc code=end
 
 

@@ -54,9 +54,6 @@ class Solution:
                   
                 # 删除
                 d = s2[left]
-                """
-                注意习惯，不是 left -= 1
-                """
                 left += 1
                 # 判断是否在need里
                 # if d in need:
@@ -69,10 +66,12 @@ class Solution:
                 if d in need:
                     if window[d] == need[d]: # 到达
                         valid -= 1
-                    window[d] = window[d] - 1
+                    window[d] -= 1
                         
         return False
-                    
+
+
+
     def checkInclusion(self, s1: str, s2: str) -> bool:
         window = {}
         left = right = 0
@@ -101,10 +100,7 @@ class Solution:
                 if d in need:
                     if window[d] == need[d]: # 到达
                         valid -= 1
-                    window[d] = window[d] - 1
-            # 不能放在这里
-            # if valid == required:
-            #     return True            
+                    window[d] = window[d] - 1           
         return False
                     
 
