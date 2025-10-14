@@ -6,59 +6,102 @@
 #
 
 # @lc code=start
+from sortedcontainers import SortedList
 class Solution:
-    def containsNearbyAlmostDuplicate(self, nums: List[int], k: int, t: int) -> bool:
-        from sortedcontainers import SortedList
-        
+    def containsNearbyAlmostDuplicate(self, nums, k, t):
         window = SortedList()
-        for i in range(len(nums)):
-            # 为了防止 i == j，所以在扩大窗口之前先判断是否有符合题意的索引对 (i, j)
-            # 查找略大于 nums[i] 的那个元素
-            pos = window.bisect_left(nums[i])
-            if pos < len(window) and window[pos] - nums[i] <= t:
-                return True
-            # 查找略小于 nums[i] 的那个元素
-            if pos > 0 and nums[i] - window[pos - 1] <= t:
-                return True
-
-            # 扩大窗口
-            window.add(nums[i])
-
-            if len(window) > k:
-                # 缩小窗口
-                window.remove(nums[i - k])
-
-        return False
-
-
-import bisect
-from typing import List
-class Solution2:
-    def containsNearbyAlmostDuplicate(self, nums: List[int], k: int, t: int) -> bool:
-        if t < 0 or k <= 0:
-            return False
-
-        window = []  # 保持有序，长度 ≤ k
         for i, x in enumerate(nums):
-            # 找到 >= x - t 的最小下标
-            pos = bisect.bisect_left(window, x - t)
-            # 如果这个位置存在，且值 ≤ x + t，则满足
-            if pos < len(window) and window[pos] <= x + t:
+            # 1️⃣ 填充阶段：先把窗口凑齐 k 个元素
+            if i + 1 < k:
+                window.add(x)
+                continue
+            
+            # 2️⃣ 检查当前 x 是否满足差值条件
+            pos = window.bisect_left(x)
+            if pos < len(window) and window[pos] - x <= t:
+                return True
+            if pos > 0 and x - window[pos - 1] <= t:
                 return True
 
-            # 插入 x
-            bisect.insort(window, x)
-
-            # 窗口超界，移除 nums[i-k]
+            # 3️⃣ 更新窗口
+            window.add(x)
             if i >= k:
-                # 二分定位并删除
-                rm = nums[i - k]
-                idx = bisect.bisect_left(window, rm)
-                # 这里一定能找到对应值（因为一进一出）
-                window.pop(idx)
-
+                window.remove(nums[i - k])
         return False
-  
+
+    def containsNearbyAlmostDuplicate(self, nums, k, t):
+        window = SortedList()
+        for i, x in enumerate(nums):
+            """
+            注意题干：
+                abs(i - j) <= indexDiff
+                abs(nums[i] - nums[j]) <= valueDiff
+
+            也就是从第一个开始就可以和第二个比较，无需等到第k个再比
+            所以无需预填充window！！！
+            
+            举例说明：
+                [-5,5,5,5,5,15] 6 6
+                正确答案之所以是 True，是因为索引 1 和 2 的两个 5 已经满足：
+                |5 - 5| = 0 ≤ 6
+                |2 - 1| = 1 ≤ 6
+                但你的代码在 i=1..4 期间都 continue（只加不查），直到 i=5 才开始查，这时拿 x=15 去比，当然查不出前面 5 和 5 的那对，于是误判 False。
+            """
+            # if i + 1 < k:
+            #     window.add(x)
+            #     continue
+            # 搜索第一个>= x的位置
+            pos = window.bisect_left(x)
+            if pos <= len(window)-1 and window[pos] - x <=t:
+                return True
+            if pos > 0 and x - window[pos-1] <= t:
+                return True
+            
+            # 更新窗口
+            """
+            要删的应该是最早滑出窗口的那个旧元素,而不是最小值
+            例如：[10, 1, 20, 2, 30] 
+            window = [1, 10, 20]  ← 有序，但最旧的是 10
+            
+            此时如果你用 pop(0) 删掉 1，
+            实际上删掉的是“最小值”而不是“最旧元素”，
+            逻辑错误 ❌。
+
+            所以，不能用 pop(0) 替代 remove(nums[i - k])，
+            """
+            # window.add(x)
+            # if len(window) >= k:
+            #     window.pop(0)
+            window.add(x)
+            if i >= k:
+                window.remove(nums[i - k])
+        return False
+# @lc code=end
+
+
+from bisect import bisect_left, bisect_right, insort
+class Solution2:
+    def containsNearbyAlmostDuplicate(nums, k, t):
+        window = []
+        for i, x in enumerate(nums):
+            # case 1: 找到略大于等于 x 的元素，检查差值 <= t
+            pos = bisect_left(window, x)
+            if pos < len(window) and window[pos] - x <= t:
+                return True
+
+            # case 2: 找到略小于 x 的元素（pos-1），检查差值 <= t
+            if pos > 0 and window[pos - 1] - x <= t:
+                return True
+
+            # 插入当前元素
+            insort(window, x)
+
+            # 保持窗口大小 <= k
+            if i >= k:
+                rm = nums[i - k]
+                idx = bisect_left(window, rm)
+                window.pop(idx)
+        return False
 
 
 """
@@ -107,7 +150,7 @@ LeetCode 220. Contains Duplicate III
    - 面试 / 实战推荐使用 SortedList（清晰且高效）
    - 若不能安装第三方库，再退回 bisect 手写版
 """
-# @lc code=end
+
 
 
 

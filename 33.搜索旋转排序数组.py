@@ -29,7 +29,7 @@ class Solution:
     
     def search(nums: List[int], target: int) -> int:
         left, right = 0, len(nums) - 1
-        while left <= right:
+        while left <= right: # 右闭区间
             mid = left + (right - left) // 2
 
             if nums[mid] == target:
@@ -75,6 +75,43 @@ class Solution:
                 else:
                     right = mid
         return -1
+    
+
+
+
+    def search(self, nums: List[int], target: int) -> int:
+        left, right = 0, len(nums) - 1
+        while left <= right:
+            mid = left + (right - left)//2
+            # 先检测是不是target
+            if nums[mid] ==  target:
+                return mid
+            
+            # 检测左侧有序还是右侧有序
+            if nums[mid] >= nums[left]: # 左侧有序
+                # target 位置检测
+                if nums[left] <= target < nums[mid]:
+                    right = mid - 1
+                    """
+                    elif target > nums[mid] 这样写不完整！！
+                    左半边 [4,7] 有序；target=0 < nums[left]=4 → 两个分支都不满足
+                    """
+                #elif target > nums[mid]:
+                else:
+                    left = mid + 1
+            
+            elif nums[mid] <= nums[right]:
+            # else:
+                # target 位置检测
+                if nums[mid] < target <= nums[right]:
+                    left = mid + 1
+                else:
+                    right = mid - 1
+        return -1
+                    
+
+
+
 
 
 # @lc code=end
