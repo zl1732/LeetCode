@@ -8,6 +8,30 @@
 # @lc code=start
 class Solution:
     def simplifyPath(self, path: str) -> str:
+        path = path.split('/')
+        s = []
+        for cur in path:
+            # if cur == '..':
+            #     if s:
+            #         s.pop()
+            #     else:
+            #         continue
+            # elif cur == '.':
+            #     continue
+            # elif cur == "":
+            #     continue
+            # else:
+            #     s.append(cur)
+
+            if cur == '..':
+                if s:
+                    s.pop()
+                continue
+            elif cur == '.' or cur == "":
+                continue
+            s.append(cur)
+        return '/' + '/'.join(s)
+
         
 # @lc code=end
 
