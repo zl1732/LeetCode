@@ -58,6 +58,62 @@ class Solution:
             res = max(res, dp[i])
         return res
         
+# 优化1
+def maxSubArray(self, nums):
+    n = len(nums)
+    if n == 0:
+        return 0
+
+    dp = [0] * n
+    dp[0] = nums[0]
+    res = dp[0]  # 初始化最大值
+
+    for i in range(1, n):
+        dp[i] = max(nums[i], nums[i] + dp[i - 1])
+        res = max(res, dp[i])  # 同时更新最大子数组和
+
+    return res
+
+# 优化2 o(1) 空间
+def maxSubArray(self, nums):
+    if not nums:
+        return 0
+
+    cur = res = nums[0]
+    for x in nums[1:]:
+        cur = max(x, cur + x)
+        res = max(res, cur)
+    return res
+
+
+
+# 单调队列
+from collections import deque
+
+class Solution:
+    def maxSubArray(self, nums):
+        n = len(nums)
+        preSum = [0] * (n + 1)
+        for i in range(1, n + 1):
+            preSum[i] = preSum[i - 1] + nums[i - 1]
+
+        # 单调队列维护最小前缀和
+        q = deque()
+        q.append(0)
+        res = float('-inf')
+
+        for i in range(1, n + 1):
+            # 当前区间和 = preSum[i] - preSum[q[0]]
+            res = max(res, preSum[i] - preSum[q[0]])
+
+            # 保持队列递增（前缀和小的留着）
+            while q and preSum[q[-1]] >= preSum[i]:
+                q.pop()
+            q.append(i)
+
+        return res
+
+
 
 # @lc code=end
 
