@@ -77,11 +77,14 @@ class Solution:
         def build() -> bool:
             if not nodes:
                 return False  # ❗说明节点提前用完，非法！
+            
             val = nodes.pop(0)
+
             if val == "#":
                 return True  # 空节点，合法结束
             # 非空节点，必须有两个合法子树
             return build() and build()
+        
         # nodes最后检测
         return build() and not nodes  # ❗不能有多余节点残留
     

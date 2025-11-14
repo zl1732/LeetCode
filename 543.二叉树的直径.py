@@ -12,57 +12,6 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
-class Solution:
-    """
-    前序方法，不推荐
-    """
-    def __init__(self):
-        self.max_diam = 0
-
-    def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
-        self.traverse(root)
-        return self.max_diam
-    
-    def traverse(self, root):
-        if root is None:
-            return 
-        """
-        注意粘贴函数用于调用时，要去掉参数的self
-        """
-        cur_max = self.maxDepth(root.left) + self.maxDepth(root.right)
-        self.max_diam = max(self.max_diam, cur_max)
-        self.traverse(root.left)
-        self.traverse(root.right)
-        
-    # 计算二叉树的最大深度
-    def maxDepth(self, root):
-        if root is None:
-            return 0
-        leftMax = self.maxDepth(root.left)
-        rightMax = self.maxDepth(root.right)
-        return 1 + max(leftMax, rightMax)
-
-    """
-    后序方法
-    """
-    def __init__(self):
-        # 记录最大直径的长度
-        self.maxDiameter = 0
-
-    def diameterOfBinaryTree(self, root):
-        self.maxDepth(root)
-        return self.maxDiameter
-
-    def maxDepth(self, root):
-        if root is None:
-            return 0
-        leftMax = self.maxDepth(root.left)
-        rightMax = self.maxDepth(root.right)
-        # 后序位置，顺便计算最大直径
-        myDiameter = leftMax + rightMax
-        self.maxDiameter = max(self.maxDiameter, myDiameter)
-
-        return 1 + max(leftMax, rightMax)
 """
 注意：
 “结构性问题（如求深度）” vs “过程性问题（如遍历）”的关键区别：
@@ -87,6 +36,57 @@ class Solution:
             vs
         “以子树为单位组合结果”的（结构型）
 """
+
+class Solution:
+    """
+    前序方法，不推荐
+    """
+    def __init__(self):
+        self.max_diam = 0
+
+    def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
+        self.traverse(root)
+        return self.max_diam
+    
+    def traverse(self, root):
+        if root is None:
+            return 
+        cur_max = self.maxDepth(root.left) + self.maxDepth(root.right)
+        self.max_diam = max(self.max_diam, cur_max)
+        self.traverse(root.left)
+        self.traverse(root.right)
+        
+    # 计算二叉树的最大深度
+    def maxDepth(self, root):
+        if root is None:
+            return 0
+        leftMax = self.maxDepth(root.left)
+        rightMax = self.maxDepth(root.right)
+        return 1 + max(leftMax, rightMax)
+
+    """
+    后序方法
+    """
+class Solution:
+    def __init__(self):
+        # 记录最大直径的长度
+        self.maxDiameter = 0
+
+    def diameterOfBinaryTree(self, root):
+        self.maxDepth(root)
+        return self.maxDiameter
+
+    def maxDepth(self, root):
+        if root is None:
+            return 0
+        leftMax = self.maxDepth(root.left)
+        rightMax = self.maxDepth(root.right)
+        # 后序位置，顺便计算最大直径
+        myDiameter = leftMax + rightMax
+        self.maxDiameter = max(self.maxDiameter, myDiameter)
+
+        return 1 + max(leftMax, rightMax)
+
 
 # @lc code=end
 

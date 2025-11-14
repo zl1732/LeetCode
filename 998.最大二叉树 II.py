@@ -1,8 +1,8 @@
 #
-# @lc app=leetcode.cn id=104 lang=python3
-# @lcpr version=30201
+# @lc app=leetcode.cn id=998 lang=python3
+# @lcpr version=30203
 #
-# [104] 二叉树的最大深度
+# [998] 最大二叉树 II
 #
 
 # @lc code=start
@@ -13,11 +13,7 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def maxDepth(self, root: Optional[TreeNode]) -> int:
-        if not root:
-            return 0
-        return 1 + max(self.maxDepth(root.left),self.maxDepth(root.right))
-        
+    def insertIntoMaxTree(self, root: Optional[TreeNode], val: int) -> Optional[TreeNode]:
         
 # @lc code=end
 
@@ -25,11 +21,15 @@ class Solution:
 
 #
 # @lcpr case=start
-# [3,9,20,null,null,15,7]\n
+# [4,1,3,null,null,2]\n5\n
 # @lcpr case=end
 
 # @lcpr case=start
-# [1,null,2]\n
+# [5,2,4,null,1]\n3\n
+# @lcpr case=end
+
+# @lcpr case=start
+# [5,2,3,null,1]\n4\n
 # @lcpr case=end
 
 #

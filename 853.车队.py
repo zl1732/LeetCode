@@ -62,6 +62,7 @@ class Solution:
         
         """
         也可以直接倒序遍历就行！！！
+        [12 3    7     1   1]
         """
         res = 0
         max_time = 0
